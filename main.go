@@ -2,17 +2,16 @@ package main
 
 import (
 	"bytes"
-	"flag"
 	"fmt"
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 func main() {
 	fileName := getDockerfile()
 	runCommand(fileName)
-
 }
 
 func getDockerfile() string {
@@ -25,16 +24,11 @@ func getDockerfile() string {
 }
 
 func runCommand(fileName string) {
-	var image string
-	flag.StringVar(&image, "image", "", "Docker image")
-	flag.Parse()
+	command := fmt.Sprintf("docker -f %v %v", fileName, strings.Join(os.Args[1:], " "))
+	log.Printf("Executing command %v", command)
 
-	if len(image) == 0 {
-		fmt.Fprintf(os.Stderr, "You must specify a Docker image name")
-		os.Exit(1)
-	}
+	cmd := exec.Command("docker", command)
 
-	cmd := exec.Command("docker", "build", "-f template/Dockerfile-go", ".")
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	err := cmd.Run()
