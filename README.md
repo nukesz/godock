@@ -1,5 +1,7 @@
 # godock
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/nukesz/godock)](https://goreportcard.com/report/github.com/nukesz/godock)
+
 Build docker images without creating a dockerfile.
 
 ## Usage
